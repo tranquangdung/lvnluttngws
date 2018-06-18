@@ -5,6 +5,7 @@ import com.lvnluttngws.document.repository.JudgmentEsRepository;
 import com.lvnluttngws.document.repository.JudgmentRepository;
 import com.lvnluttngws.document.service.JudgmentService;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -82,16 +83,17 @@ public class JudgmentServiceImpl implements JudgmentService {
 
         ResultContainer resultContainer = new ResultContainer();
         List<Result> results = new ArrayList<>();
-        List<String> keywords = searchInput.getKeywords();
-        if (keywords == null || keywords.size() == 0) {
+        if (Strings.isEmpty(searchInput.getInputText())) {
             logger.debug("Keyword list is blank");
             return resultContainer;
         }
 
+        // TODO: using custom tokenizer to analyze input text
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices("lvnluttngidx")
                 .withTypes("test")
-                .withQuery(QueryBuilders.matchQuery("content", keywords.get(0)))
-                .withHighlightFields(new HighlightBuilder.Field("content").preTags("<span style='background-color: #FFFF00'>")
+                .withQuery(QueryBuilders.matchQuery("content", searchInput.getInputText()))
+                .withHighlightFields(new HighlightBuilder.Field("content")
+                        .preTags("<span style='background-color: #FFFF00'>")
                         .postTags("</span>"))
                 .withPageable(new PageRequest(searchInput.getIndexFrom(), searchInput.getIndexTo()))
                 .build();

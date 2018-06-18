@@ -60,11 +60,8 @@ public class LvnluttngwsApplicationTests {
         JudgmentEs judgmentEs2 = new JudgmentEs(3 + "", "Document1.pdf", "Nội dung");
         judgmentEsRepository.save(judgmentEs2);
 
-        List<String> keywords = new ArrayList<>();
-        keywords.add("Việt Nam");
-        keywords.add("Châu Á");
         SearchInput searchInput = new SearchInput();
-        searchInput.setKeywords(keywords);
+        searchInput.setInputText("Việt Nam");
         searchInput.setIndexFrom(0);
         searchInput.setIndexTo(10);
         judgmentService.search(searchInput);

@@ -40,7 +40,7 @@ public class SearchCtrl {
     }
 
     // add document
-    @PostMapping("/add")
+    @PostMapping("/adddoc")
     public String createDocument(@Valid @RequestBody AddInput addInput) {
         if (addInput == null || Strings.isEmpty(addInput.getUrl())) {
             logger.debug("Missing file url");
