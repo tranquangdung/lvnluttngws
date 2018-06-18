@@ -44,7 +44,7 @@ public class FileServiceImpl implements FileService {
         judgment.setUpdatedDate(date);
         judgment.setFileName(file.getName());
         judgment.setFilePath(file.getAbsolutePath());
-        judgment.setContent(PDFToText.parse(file));
+        judgment.setContent(PDFToText.parse(file).getBytes());
         Judgment jud = judgmentService.addRecord(judgment);
         if (jud.getId() != null) {
             return true;

@@ -23,8 +23,8 @@ public class Judgment {
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "content", nullable = false, columnDefinition="LONGBLOB")
+    private byte[] content;
 
     @Column(name = "created_date")
     @Temporal(TemporalType.DATE)
@@ -74,11 +74,11 @@ public class Judgment {
         this.fileName = fileName;
     }
 
-    public String getContent() {
+    public byte[] getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(byte[] content) {
         this.content = content;
     }
 

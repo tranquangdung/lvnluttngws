@@ -25,6 +25,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.naming.directory.SearchResult;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class JudgmentServiceImpl implements JudgmentService {
         JudgmentEs judgmentEs = new JudgmentEs();
         judgmentEs.setId(judgment.getId() + "");
         judgmentEs.setFileName(judgment.getFileName());
-        judgmentEs.setContent(judgment.getContent());
+        judgmentEs.setContent(Arrays.toString(judgment.getContent()));
         judgmentEsRepository.save(judgmentEs);
     }
 
