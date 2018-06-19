@@ -11,13 +11,13 @@
     }
   },
   "mappings": {
-    "pdf_document": {
+    "judgmenttype": {
       "properties": {
-        "document_name": {
+        "fileName": {
           "type": "string",
           "analyzer": "vietnamese-analyzer"
         },
-        "document_content": {
+        "content": {
           "type": "string",
           "analyzer": "vietnamese-analyzer"
         }

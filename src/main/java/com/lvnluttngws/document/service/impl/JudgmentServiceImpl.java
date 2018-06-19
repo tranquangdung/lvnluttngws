@@ -91,7 +91,7 @@ public class JudgmentServiceImpl implements JudgmentService {
 
         // TODO: using custom tokenizer to analyze input text
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices("lvnluttngidx")
-                .withTypes("test")
+                .withTypes("judgmenttype")
                 .withQuery(QueryBuilders.matchQuery("content", searchInput.getInputText()))
                 .withHighlightFields(new HighlightBuilder.Field("content")
                         .preTags("<span style='background-color: #FFFF00'>")

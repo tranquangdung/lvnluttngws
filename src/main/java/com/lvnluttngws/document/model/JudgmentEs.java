@@ -1,17 +1,19 @@
 package com.lvnluttngws.document.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.*;
 
-import java.util.Date;
-
-@Document(indexName = "lvnluttngidx", type = "test")
+@Document(indexName = "lvnluttngidx", type = "judgmenttype")
+@Setting(settingPath = "/es_entity_setting/judgment_setting.json")
+@Mapping(mappingPath = "/es_entity_mapping/judgment_mapping.json")
 public class JudgmentEs {
     @Id
     private String id;
 
+    @Field(type = FieldType.String)
     private String fileName;
 
+    @Field(type = FieldType.String)
     private String content;
 
     public JudgmentEs() {

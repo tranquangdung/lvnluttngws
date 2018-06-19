@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "vietnamese-analyzer": {
+          "type": "custom",
+          "tokenizer": "vi_tokenizer",
+          "filter": "lowercase"
+        }
+      }
+    }
+  }
+}

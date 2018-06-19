@@ -1,0 +1,14 @@
+{
+  "judgmenttype": {
+    "properties": {
+      "fileName": {
+        "type": "string",
+        "analyzer": "vietnamese-analyzer"
+      },
+      "content": {
+        "type": "string",
+        "analyzer": "vietnamese-analyzer"
+      }
+    }
+  }
+}
