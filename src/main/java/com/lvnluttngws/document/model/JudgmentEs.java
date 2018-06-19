@@ -4,16 +4,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
 @Document(indexName = "lvnluttngidx", type = "judgmenttype")
-@Setting(settingPath = "/es_entity_setting/judgment_setting.json")
-@Mapping(mappingPath = "/es_entity_mapping/judgment_mapping.json")
+/*@Setting(settingPath = "/es_entity_setting/judgment_setting.json")*/
+/*@Mapping(mappingPath = "/es_entity_mapping/judgment_mapping.json")*/
 public class JudgmentEs {
     @Id
     private String id;
 
-    @Field(type = FieldType.String)
+    @Field(type = FieldType.String, store = true, analyzer = "vietnamese-analyzer")
     private String fileName;
 
-    @Field(type = FieldType.String)
+    @Field(type = FieldType.String, store = true, analyzer = "vietnamese-analyzer")
     private String content;
 
     public JudgmentEs() {
