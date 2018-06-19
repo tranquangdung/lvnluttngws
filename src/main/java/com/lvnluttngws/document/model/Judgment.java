@@ -5,6 +5,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "judgment")
+/*@Setting(settingPath = "/settings/settings.json")
+@Mapping(mappingPath = "/mappings/mappings.json")*/
 public class Judgment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,0 +1,27 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "vietnamese-analyzer": {
+          "type": "custom",
+          "tokenizer": "vi_tokenizer",
+          "filter": "lowercase"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "pdf_document": {
+      "properties": {
+        "document_name": {
+          "type": "string",
+          "analyzer": "vietnamese-analyzer"
+        },
+        "document_content": {
+          "type": "string",
+          "analyzer": "vietnamese-analyzer"
+        }
+      }
+    }
+  }
+}
