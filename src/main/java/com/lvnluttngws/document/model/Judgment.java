@@ -25,7 +25,6 @@ public class Judgment {
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    // , columnDefinition="LONGBLOB"
     @Lob
     @Column(name = "content", nullable = false, length = Integer.MAX_VALUE)
     private byte[] content;
