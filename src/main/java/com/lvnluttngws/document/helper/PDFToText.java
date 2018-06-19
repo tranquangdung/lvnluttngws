@@ -1,46 +1,33 @@
 package com.lvnluttngws.document.helper;
 
-import org.apache.tika.exception.TikaException;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.apache.tika.sax.BodyContentHandler;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
 
-import java.io.*;
+import java.io.File;
 
 /*Extract text from a large pdf*/
 public class PDFToText {
 
     public static String parse(File file) {
-        InputStream is = null;
         try {
-            is = new BufferedInputStream(new FileInputStream(file));
+            PDDocument document = PDDocument.load(file);
+            document.getClass();
 
-            Parser parser = new AutoDetectParser();
-            ContentHandler handler = new BodyContentHandler(Integer.MAX_VALUE);
+            if (!document.isEncrypted()) {
 
-            Metadata metadata = new Metadata();
+                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                stripper.setSortByPosition(true);
 
-            parser.parse(is, handler, metadata, new ParseContext());
+                PDFTextStripper tStripper = new PDFTextStripper();
 
-            return handler.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TikaException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String pdfFileInText = tStripper.getText(document);
+                // remove empty lines
+                return pdfFileInText.replaceAll("(?m)^[ \t]*\r?\n", "");
             }
+
+        } catch (Exception e) {
+            System.out.println(e.getCause());
         }
         return null;
     }

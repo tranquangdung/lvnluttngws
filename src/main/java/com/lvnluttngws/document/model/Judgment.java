@@ -23,7 +23,9 @@ public class Judgment {
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    @Column(name = "content", nullable = false, columnDefinition="LONGBLOB")
+    // , columnDefinition="LONGBLOB"
+    @Lob
+    @Column(name = "content", nullable = false, length = Integer.MAX_VALUE)
     private byte[] content;
 
     @Column(name = "created_date")
