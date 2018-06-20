@@ -1,0 +1,10 @@
+{
+  "test": {
+    "properties": {
+      "content": {
+        "type": "text",
+        "analyzer": "vietnamese-analyzer"
+      }
+    }
+  }
+}

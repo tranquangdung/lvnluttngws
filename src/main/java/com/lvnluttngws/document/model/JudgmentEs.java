@@ -2,10 +2,14 @@ package com.lvnluttngws.document.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.util.Date;
 
 @Document(indexName = "lvnluttngidx", type = "test")
+@Setting(settingPath = "/settings/lawonline-settings.json")
+@Mapping(mappingPath = "/mappings/test-mappings.json")
 public class JudgmentEs {
     @Id
     private String id;
