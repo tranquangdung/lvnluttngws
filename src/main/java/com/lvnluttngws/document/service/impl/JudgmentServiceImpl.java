@@ -63,7 +63,7 @@ public class JudgmentServiceImpl implements JudgmentService {
     }
 
     private void checkIndex() {
-        if(!esTemplate.indexExists(JudgmentEs.class)) {
+        if (!esTemplate.indexExists(JudgmentEs.class)) {
             esTemplate.createIndex(JudgmentEs.class);
             esTemplate.putMapping(JudgmentEs.class);
             esTemplate.refresh(JudgmentEs.class);
@@ -112,10 +112,12 @@ public class JudgmentServiceImpl implements JudgmentService {
                         .postTags("</span>"))
                 .withPageable(new PageRequest(searchInput.getIndexFrom(), searchInput.getIndexTo()))
                 .build();
-        SearchResult result = es.query(searchQuery, new ResultsExtractor<SearchResult>() {
+        SearchResult result = esTemplate.query(searchQuery, new ResultsExtractor<SearchResult>() {
             @Override
             public SearchResult extract(SearchResponse response) {
                 long totalHits = response.getHits().totalHits();
+                logger.info("Total records: " + totalHits);
+                resultContainer.setTotalHits(totalHits);
                 for (SearchHit hit : response.getHits()) {
                     if (hit != null) {
                         Result res = new Result();
@@ -124,8 +126,8 @@ public class JudgmentServiceImpl implements JudgmentService {
                         res.setHighLight(getHighLight(hit));
                         float documentScore = hit.getScore();
                         res.setScore(documentScore);
-                        results.add(res);
                         logger.info("documentScore: " + documentScore);
+                        results.add(res);
                     }
                 }
                 return new SearchResult(null, totalHits, null);
