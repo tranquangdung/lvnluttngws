@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -24,10 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.naming.directory.SearchResult;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,11 +41,9 @@ public class JudgmentServiceImpl implements JudgmentService {
     @Autowired
     private JudgmentRepository judgmentRepository;
 
-    @Autowired
-    private ElasticsearchOperations es;
-
     @Override
     public void reindexDB() {
+        logger.debug("### reindexDB: START ###");
         // 1. Delete old index
         esTemplate.deleteIndex(JudgmentEs.class);
         esTemplate.createIndex(JudgmentEs.class);
@@ -62,6 +57,7 @@ public class JudgmentServiceImpl implements JudgmentService {
             }
         }
         esTemplate.refresh(JudgmentEs.class);
+        logger.debug("### reindexDB: END ###");
     }
 
     private void checkIndex() {
@@ -76,8 +72,7 @@ public class JudgmentServiceImpl implements JudgmentService {
         JudgmentEs judgmentEs = new JudgmentEs();
         judgmentEs.setId(judgment.getId() + "");
         judgmentEs.setFileName(judgment.getFileName());
-        String str = new String(judgment.getContent(), StandardCharsets.UTF_8);
-        judgmentEs.setContent(str);
+        judgmentEs.setContent(new String(judgment.getContent(), StandardCharsets.UTF_8));
         judgmentEsRepository.save(judgmentEs);
     }
 
@@ -97,7 +92,8 @@ public class JudgmentServiceImpl implements JudgmentService {
 
     @Override
     public ResultContainer search(SearchInput searchInput) {
-
+        logger.debug("### search: START ###");
+        logger.info("Search with keyword: " + searchInput.getInputText());
         ResultContainer resultContainer = new ResultContainer();
         List<Result> results = new ArrayList<>();
         if (Strings.isEmpty(searchInput.getInputText())) {
@@ -136,6 +132,7 @@ public class JudgmentServiceImpl implements JudgmentService {
             }
         });
         resultContainer.setResult(results);
+        logger.debug("### search: END ###");
         return resultContainer;
     }
 
