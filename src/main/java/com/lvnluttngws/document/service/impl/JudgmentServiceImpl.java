@@ -52,6 +52,8 @@ public class JudgmentServiceImpl implements JudgmentService {
         // 1. Delete old index
         esTemplate.deleteIndex(JudgmentEs.class);
         esTemplate.createIndex(JudgmentEs.class);
+        esTemplate.putMapping(JudgmentEs.class);
+        esTemplate.refresh(JudgmentEs.class);
         // 2. Get all record form DB -> indexing
         List<Judgment> judgments = judgmentRepository.findAll();
         if (!CollectionUtils.isEmpty(judgments)) {
