@@ -1,5 +1,6 @@
 package com.lvnluttngws;
 
+import com.lvnluttngws.document.service.JudgmentService;
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +18,9 @@ public class LvnluttngwsApplication implements CommandLineRunner {
     @Autowired
     private ElasticsearchOperations es;
 
+    @Autowired
+    private JudgmentService judgmentService;
+
     public static void main(String[] args) {
         SpringApplication.run(LvnluttngwsApplication.class, args);
     }
@@ -24,6 +28,8 @@ public class LvnluttngwsApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         printElasticSearchInfo();
+        System.out.println("Reindexing.....");
+        judgmentService.reindexDB();
     }
 
     //useful for debug
