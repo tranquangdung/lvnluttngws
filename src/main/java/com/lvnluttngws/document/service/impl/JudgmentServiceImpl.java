@@ -109,6 +109,7 @@ public class JudgmentServiceImpl implements JudgmentService {
                         .preTags("<span style='background-color: #FFFF00'>")
                         .postTags("</span>"))
                 .withPageable(new PageRequest(searchInput.getIndexFrom(), searchInput.getIndexTo()))
+                .withMinScore(0.1f)
                 .build();
         SearchResult result = esTemplate.query(searchQuery, new ResultsExtractor<SearchResult>() {
             @Override

@@ -39,8 +39,8 @@ public class EsConfig {
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(EsHost), EsPort));
     }
 
-    @Bean
+    /*@Bean
     public ElasticsearchOperations elasticsearchTemplate() throws Exception {
         return new ElasticsearchTemplate(client());
-    }
+    }*/
 }

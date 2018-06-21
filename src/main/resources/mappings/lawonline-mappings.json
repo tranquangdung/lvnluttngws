@@ -2,7 +2,7 @@
   "test": {
     "properties": {
       "content": {
-        "type": "text",
+        "type": "string",
         "analyzer": "vietnamese-analyzer"
       }
     }
