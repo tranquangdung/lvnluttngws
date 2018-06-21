@@ -75,7 +75,6 @@ public class JudgmentServiceImpl implements JudgmentService {
         judgmentEs.setId(judgment.getId() + "");
         judgmentEs.setFileName(judgment.getFileName());
         String str = new String(judgment.getContent(), StandardCharsets.UTF_8);
-        System.out.println(str);
         judgmentEs.setContent(str);
         judgmentEsRepository.save(judgmentEs);
     }
