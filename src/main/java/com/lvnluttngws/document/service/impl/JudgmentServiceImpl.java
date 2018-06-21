@@ -1,5 +1,6 @@
 package com.lvnluttngws.document.service.impl;
 
+import com.lvnluttngws.document.common.ESConstant;
 import com.lvnluttngws.document.model.*;
 import com.lvnluttngws.document.repository.JudgmentEsRepository;
 import com.lvnluttngws.document.repository.JudgmentRepository;
@@ -102,14 +103,14 @@ public class JudgmentServiceImpl implements JudgmentService {
         }
 
         // TODO: using custom tokenizer to analyze input text
-        SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices("lvnluttngidx")
-                .withTypes("test")
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices(ESConstant.ES_INDEX_NAME)
+                .withTypes(ESConstant.ES_TYPE)
                 .withQuery(QueryBuilders.matchQuery("content", searchInput.getInputText()))
                 .withHighlightFields(new HighlightBuilder.Field("content")
                         .preTags("<span style='background-color: #FFFF00'>")
                         .postTags("</span>"))
                 .withPageable(new PageRequest(searchInput.getIndexFrom(), searchInput.getIndexTo()))
-                .withMinScore(0.1f)
+                .withMinScore(ESConstant.ES_MIN_RESULT_THRESOLD)
                 .build();
         SearchResult result = esTemplate.query(searchQuery, new ResultsExtractor<SearchResult>() {
             @Override
