@@ -5,12 +5,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Mapping;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
-import java.util.Date;
+import java.io.Serializable;
 
 @Document(indexName = "lvnluttngidx", type = "test")
-@Setting(settingPath = "/settings/lawonline-settings.json")
-@Mapping(mappingPath = "/mappings/test-mappings.json")
-public class JudgmentEs {
+/*@Setting(settingPath = "/settings/lawonline-settings.json")
+@Mapping(mappingPath = "/mappings/lawonline-mappings.json")*/
+public class JudgmentEs implements Serializable {
     @Id
     private String id;
 

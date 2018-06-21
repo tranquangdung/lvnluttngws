@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.naming.directory.SearchResult;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,13 +59,24 @@ public class JudgmentServiceImpl implements JudgmentService {
                 indexing(judgment);
             }
         }
+        esTemplate.refresh(JudgmentEs.class);
+    }
+
+    private void checkIndex() {
+        if(!esTemplate.indexExists(JudgmentEs.class)) {
+            esTemplate.createIndex(JudgmentEs.class);
+            esTemplate.putMapping(JudgmentEs.class);
+            esTemplate.refresh(JudgmentEs.class);
+        }
     }
 
     private void indexing(Judgment judgment) {
         JudgmentEs judgmentEs = new JudgmentEs();
         judgmentEs.setId(judgment.getId() + "");
         judgmentEs.setFileName(judgment.getFileName());
-        judgmentEs.setContent(Arrays.toString(judgment.getContent()));
+        String str = new String(judgment.getContent(), StandardCharsets.UTF_8);
+        System.out.println(str);
+        judgmentEs.setContent(str);
         judgmentEsRepository.save(judgmentEs);
     }
 
@@ -74,7 +87,9 @@ public class JudgmentServiceImpl implements JudgmentService {
         Judgment judg = judgmentRepository.save(judgment);
 
         // 2.0 Add to Elastic
+        checkIndex();
         indexing(judg);
+        esTemplate.refresh(JudgmentEs.class);
         logger.debug("### addRecord: END ###");
         return judgment;
     }
@@ -111,7 +126,7 @@ public class JudgmentServiceImpl implements JudgmentService {
                         float documentScore = hit.getScore();
                         res.setScore(documentScore);
                         results.add(res);
-                        System.out.println("documentScore: " + documentScore);
+                        logger.info("documentScore: " + documentScore);
                     }
                 }
                 return new SearchResult(null, totalHits, null);
