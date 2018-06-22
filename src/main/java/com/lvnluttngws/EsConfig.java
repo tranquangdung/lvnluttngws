@@ -7,8 +7,6 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import java.net.InetAddress;
@@ -38,9 +36,4 @@ public class EsConfig {
                 .build()
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(EsHost), EsPort));
     }
-
-    /*@Bean
-    public ElasticsearchOperations elasticsearchTemplate() throws Exception {
-        return new ElasticsearchTemplate(client());
-    }*/
 }

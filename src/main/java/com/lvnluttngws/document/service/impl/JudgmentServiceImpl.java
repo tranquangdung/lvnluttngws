@@ -145,6 +145,7 @@ public class JudgmentServiceImpl implements JudgmentService {
             Text[] frags = entry.fragments();
             for (final Text t : frags) {
                 highLight.add(t.toString());
+                System.out.println(t.toString());
             }
         }
         return highLight;

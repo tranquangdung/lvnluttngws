@@ -2,7 +2,7 @@
   "number_of_shards": 1,
   "analysis": {
     "analyzer": {
-      "autocomplete": {
+      "vietnamese-analyzer": {
         "type": "custom",
         "tokenizer": "vi_tokenizer",
         "filter": [
