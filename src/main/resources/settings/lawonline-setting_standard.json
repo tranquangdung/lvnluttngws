@@ -3,7 +3,8 @@
   "analysis": {
     "analyzer": {
       "vietnamese-analyzer": {
-        "type": "whitespace",
+        "type": "custom",
+        "tokenizer": "whitespace",
         "stopwords": [
           "a lô",
           "a ha",
