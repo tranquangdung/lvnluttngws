@@ -1,6 +1,9 @@
 1) Install Vietnamese plugin for Elasticsearch 2.4.0 using command below:
     G:\15.Proj\tools\elasticsearch-2.4.0\bin>plugin install file:D:/15.Proj/final/elasticsearch-analysis-vietnamese-2.4.0.zip
 
+Install
+    mvn install:install-file -Dfile=D:\15.Prj\Working\x-pack-transport-5.4.1.jar -DgroupId=org.elasticsearch.client -DartifactId=x-pack-transport -Dversion=5.4.1 -Dpackaging=jar -DgeneratePom=true
+
 2) Import documents from specific folder
     a) API: http://localhost:8080/api/importdoc
     b) Request

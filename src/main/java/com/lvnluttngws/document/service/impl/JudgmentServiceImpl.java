@@ -1,6 +1,5 @@
 package com.lvnluttngws.document.service.impl;
 
-import com.lvnluttngws.document.common.ESConstant;
 import com.lvnluttngws.document.model.*;
 import com.lvnluttngws.document.repository.JudgmentEsRepository;
 import com.lvnluttngws.document.repository.JudgmentRepository;
@@ -10,24 +9,23 @@ import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.highlight.HighlightBuilder;
-import org.elasticsearch.search.highlight.HighlightField;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.ResultsExtractor;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.naming.directory.SearchResult;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+/*import org.elasticsearch.search.highlight.HighlightBuilder;
+import org.elasticsearch.search.highlight.HighlightField;*/
 
 @Service
 public class JudgmentServiceImpl implements JudgmentService {
@@ -102,7 +100,42 @@ public class JudgmentServiceImpl implements JudgmentService {
             return resultContainer;
         }
 
-        // TODO: using custom tokenizer to analyze input text
+        HighlightBuilder builder = new HighlightBuilder();
+        HighlightBuilder.Field field = new HighlightBuilder.Field("content");
+        field.preTags("<span style='background-color: #FFFF00'>");
+        field.postTags("</span>");
+        builder.field(field);
+
+        /*// TODO: using custom tokenizer to analyze input text
+        SearchResponse searchResponse = esTemplate.getClient().prepareSearch("lvnluttngidx")
+                .setTypes("test").setQuery(QueryBuilders.matchAllQuery())
+                .highlighter(builder)
+                .execute().actionGet();
+        SearchHits hits = searchResponse.getHits();
+        logger.info("Total hits: " + hits.totalHits);
+        for (SearchHit hit : hits.getHits()) {
+            if (hit != null) {
+                Result res = new Result();
+                logger.info("Found ID: " + hit.getId());
+                res.setId(hit.getId());
+                res.setHighLight(getHighLight(hit));
+                float documentScore = hit.getScore();
+                res.setScore(documentScore);
+                logger.info("documentScore: " + documentScore);
+                results.add(res);
+            }
+        }
+
+
+        /*SearchResponse searchResponse = esTemplate.getClient().prepareSearch("test").setTypes("test")
+                .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).should(QueryBuilders
+                        .termQuery("name", "arbitrary")))
+                .highlighter(
+                        new HighlightBuilder().highlighterType("test-custom").field("name").field("other_name").field("other_other_name")
+                                .useExplicitFieldOrder(true))
+                .get();*/
+
+        /*// TODO: using custom tokenizer to analyze input text
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices(ESConstant.ES_INDEX_NAME)
                 .withTypes(ESConstant.ES_TYPE)
                 .withQuery(QueryBuilders.matchQuery("content", searchInput.getInputText()))
@@ -132,7 +165,7 @@ public class JudgmentServiceImpl implements JudgmentService {
                 }
                 return new SearchResult(null, totalHits, null);
             }
-        });
+        });*/
         resultContainer.setResult(results);
         logger.debug("### search: END ###");
         return resultContainer;
