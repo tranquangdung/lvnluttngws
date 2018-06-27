@@ -4,6 +4,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.elasticsearch.xpack.client.PreBuiltXPackTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,11 +35,8 @@ public class EsConfig {
                 .build();
 
 
-        Client client = new PreBuiltXPackTransportClient(
-                Settings.builder()
-                        .put("cluster.name", EsClusterName)
-                        .build())
-                .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress(EsHost, EsPort)));
+        TransportClient client = new PreBuiltTransportClient(esSettings)
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("host1"), 9300));
 
         /*return TransportClient.builder()
                 .settings(esSettings)
