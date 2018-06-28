@@ -69,10 +69,10 @@ public class LvnluttngwsApplicationTests {
         searchInput.setIndexFrom(0);
         searchInput.setIndexTo(10);
         ResultContainer res = judgmentService.search(searchInput);
-        System.out.println("Result search with keyword "+searchInput.getInputText() +": " + res.getResult().size());
+        System.out.println("Result search with keyword " + searchInput.getInputText() + ": " + res.getResult().size());
         searchInput.setInputText("Việt Nam");
         res = judgmentService.search(searchInput);
-        System.out.println("Result search with keyword "+searchInput.getInputText() +": " + res.getResult().size());
+        System.out.println("Result search with keyword " + searchInput.getInputText() + ": " + res.getResult().size());
         System.out.println("### testSearch: END ###");
     }
 }
