@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 import java.io.Serializable;
 
 @Document(indexName = ESConstant.ES_INDEX_NAME, type = ESConstant.ES_TYPE)
-@Setting(settingPath = "/settings/lawonline-setting_standard.json")
+@Setting(settingPath = "/settings/lawonline-settings.json")
 public class JudgmentEs implements Serializable {
     @Id
     private String id;

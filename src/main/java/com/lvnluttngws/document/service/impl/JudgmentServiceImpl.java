@@ -1,5 +1,6 @@
 package com.lvnluttngws.document.service.impl;
 
+import com.lvnluttngws.document.common.ESConstant;
 import com.lvnluttngws.document.model.*;
 import com.lvnluttngws.document.repository.JudgmentEsRepository;
 import com.lvnluttngws.document.repository.JudgmentRepository;
@@ -100,16 +101,10 @@ public class JudgmentServiceImpl implements JudgmentService {
             return resultContainer;
         }
 
-        HighlightBuilder builder = new HighlightBuilder();
-        HighlightBuilder.Field field = new HighlightBuilder.Field("content");
-        field.preTags("<span style='background-color: #FFFF00'>");
-        field.postTags("</span>");
-        builder.field(field);
-
-        /*// TODO: using custom tokenizer to analyze input text
-        SearchResponse searchResponse = esTemplate.getClient().prepareSearch("lvnluttngidx")
-                .setTypes("test").setQuery(QueryBuilders.matchAllQuery())
-                .highlighter(builder)
+        SearchResponse searchResponse = esTemplate.getClient().prepareSearch(ESConstant.ES_INDEX_NAME)
+                .setTypes(ESConstant.ES_TYPE).setQuery(QueryBuilders.matchAllQuery())
+                .highlighter(new HighlightBuilder().field("content")
+                        .preTags("<span style='background-color: #FFFF00'>").postTags("</span>"))
                 .execute().actionGet();
         SearchHits hits = searchResponse.getHits();
         logger.info("Total hits: " + hits.totalHits);
@@ -125,6 +120,9 @@ public class JudgmentServiceImpl implements JudgmentService {
                 results.add(res);
             }
         }
+
+        /*// TODO: using custom tokenizer to analyze input text
+
 
 
         /*SearchResponse searchResponse = esTemplate.getClient().prepareSearch("test").setTypes("test")
